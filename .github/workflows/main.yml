@@ -1,1 +1,42 @@
+Save this script as apply_ingest_patch.sh at the root of your local clone (the script creates files and commits them to deploy/ingestion-pipeline):
+(Short version — save and run exactly as shown) #!/usr/bin/env bash set -euo pipefail
 
+BRANCH="deploy/ingestion-pipeline" COMMIT_MSG="feat(ingestion): add fastify endpoint, worker, telemetry broker, docker-compose, and CI skeleton"
+
+git fetch origin if git show-ref --verify --quiet "refs/heads/${BRANCH}"; then git checkout "${BRANCH}" else if git ls-remote --exit-code --heads origin "${BRANCH}" >/dev/null 2>&1; then git checkout -b "
+B
+R
+A
+N
+C
+H
+"
+"
+o
+r
+i
+g
+i
+n
+/
+{BRANCH}" else git checkout -b "${BRANCH}" fi fi
+
+mkdir -p fastify/src worker/src telemetry/src .github/workflows
+
+(The script creates README.md, docker-compose.yml, fastify/, worker/, telemetry/ files and .github workflow)
+
+For brevity, paste the full script I sent earlier (it writes all files and commits them).
+
+After saving the full script content, make it executable and run it:
+
+chmod +x apply_ingest_patch.sh
+
+./apply_ingest_patch.sh
+
+Make it executable and run it:
+chmod +x apply_ingest_patch.sh
+./apply_ingest_patch.sh
+Push the branch to origin:
+git push origin deploy/ingestion-pipeline
+Open a Pull Request Option A — Using GitHub CLI:
+gh pr create --base main --head deploy/ingestion-pipeline --title "feat(ingestion): add Fastify ingestion endpoint, worker, telemetry broker, and dev infra" --body "$(cat pr_body.txt)" (If you don’t have pr_body.txt, see PR body below to paste into gh or the web UI.)
